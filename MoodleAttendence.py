@@ -7,8 +7,13 @@ from prettytable import PrettyTable
 
 class Moodle():
 
-    def __init__(self,teacher_name):
+    def __init__(self,teacher_name,user_name,password,student_name):
         self.val=teacher_name.title()
+	self.username=user_name
+	self.pass=password
+        self.name=student_name.upper()
+	self.ele=self.username +" "+ self.name
+
 
     def login(self):
         s = Service("C:\\Users\\aman gupta\\Downloads\\chromedriver_win32\\chromedriver.exe")
@@ -17,9 +22,9 @@ class Moodle():
         driver.get("http://moodle.mitsgwalior.in/login/index.php")
         driver.implicitly_wait(15)
         enrollment = driver.find_element("name", "username")
-        enrollment.send_keys("0901EC181012")
+        enrollment.send_keys(self.username)
         password = driver.find_element("id", "password")
-        password.send_keys("Aman@8989")
+        password.send_keys(self.pass)
         login = driver.find_element("id", "loginbtn")
         login.submit()
 
@@ -30,7 +35,7 @@ class Moodle():
         driver.get("http://moodle.mitsgwalior.in/my/")
         driver.implicitly_wait(15)
         try:
-            driver.find_element(By.XPATH,"//span[text()='0901EC181012 AMAN GUPTA']").click()
+            driver.find_element(By.XPATH,f"//span[text()='{self.ele}']").click()
         except:
             print("You are already Log Out from your account!")
         else:
@@ -47,9 +52,9 @@ class Moodle():
         driver.get("http://moodle.mitsgwalior.in/login/index.php")
         driver.implicitly_wait(30)
         enrollment = driver.find_element("name", "username")
-        enrollment.send_keys("0901EC181012")
+        enrollment.send_keys(self.username)
         password = driver.find_element("id", "password")
-        password.send_keys("Aman@8989")
+        password.send_keys(self.pass)
         login = driver.find_element("id", "loginbtn")
         login.submit()
         #time.sleep(5)
@@ -73,7 +78,7 @@ class Moodle():
             file.click()
             #time.sleep(3)
             driver.find_element(By.XPATH,'//input[@type="file"]').send_keys(file_address)
-            driver.find_element(By.XPATH,'//input[@name="title"]').send_keys("Aman Gupta_0901EC181012")
+            driver.find_element(By.XPATH,'//input[@name="title"]').send_keys(self.username)
             driver.find_element(By.XPATH,'//button[text()="Upload this file"]').click()
             time.sleep(5)
             driver.find_element(By.XPATH,'//input[@value="Save changes"]').click()
@@ -91,9 +96,9 @@ class Moodle():
         driver.get("http://moodle.mitsgwalior.in/login/index.php")
         driver.implicitly_wait(20)
         enrollment = driver.find_element("name", "username")
-        enrollment.send_keys("0901EC181012")
+        enrollment.send_keys(self.username)
         password = driver.find_element("id", "password")
-        password.send_keys("Aman@8989")
+        password.send_keys(self.pass)
         login = driver.find_element("id", "loginbtn")
         login.submit()
         #time.sleep(3)
@@ -124,9 +129,9 @@ class Moodle():
         driver.get("http://moodle.mitsgwalior.in/login/index.php")
         driver.implicitly_wait(20)
         enrollment = driver.find_element("name", "username")
-        enrollment.send_keys("0901EC181012")
+        enrollment.send_keys(self.username)
         password = driver.find_element("id", "password")
-        password.send_keys("Aman@8989")
+        password.send_keys(self.pass)
         login = driver.find_element("id", "loginbtn")
         login.submit()
         #time.sleep(5)
@@ -175,9 +180,9 @@ class Moodle():
         driver.get("http://moodle.mitsgwalior.in/login/index.php")
         driver.implicitly_wait(20)
         enrollment = driver.find_element("name", "username")
-        enrollment.send_keys("0901EC181012")
+        enrollment.send_keys(self.username)
         password = driver.find_element("id", "password")
-        password.send_keys("Aman@8989")
+        password.send_keys(self.pass)
         login = driver.find_element("id", "loginbtn")
         login.submit()
         activity_date=[]
@@ -213,12 +218,12 @@ class Moodle():
         driver.get("http://moodle.mitsgwalior.in/login/index.php")
         driver.implicitly_wait(30)
         enrollment = driver.find_element("name", "username")
-        enrollment.send_keys("0901EC181012")
+        enrollment.send_keys(self.username)
         password = driver.find_element("id", "password")
-        password.send_keys("Aman@8989")
+        password.send_keys(self.pass)
         login = driver.find_element("id", "loginbtn")
         login.submit()
-        driver.find_element(By.XPATH,"//span[text()='0901EC181012 AMAN GUPTA']").click()
+        driver.find_element(By.XPATH,f"//span[text()='{self.ele}']").click()
         driver.find_element(By.XPATH,"//a[@data-title='messages,message']").click()
         driver.find_element(By.XPATH,'//div[@id="view-overview-messages-toggle"]/button').click()
         #time.sleep(5)
@@ -269,12 +274,12 @@ class Moodle():
         driver.get("http://moodle.mitsgwalior.in/login/index.php")
         driver.implicitly_wait(30)
         enrollment = driver.find_element("name", "username")
-        enrollment.send_keys("0901EC181012")
+        enrollment.send_keys(self.username)
         password = driver.find_element("id", "password")
-        password.send_keys("Aman@8989")
+        password.send_keys(self.pass)
         login = driver.find_element("id", "loginbtn")
         login.submit()
-        driver.find_element(By.XPATH,"//span[text()='0901EC181012 AMAN GUPTA']").click()
+        driver.find_element(By.XPATH,f"//span[text()='{self.ele}']").click()
         driver.find_element(By.XPATH,"//a[@data-title='grades,grades']").click()
         driver.find_element(By.XPATH,f'//tr/td/a[contains(text(),"{self.val}")]').click()
         types=driver.find_elements(By.XPATH,'//tr/th/a')
@@ -295,12 +300,13 @@ class Moodle():
         for i,j,k in zip(li_types,li_grades,li_prcnt):
             tab.add_row([i,j,k])
         print(tab)
-first=Moodle("Prof. Vishwas Shrivastava")
+#first=Moodle("Prof. Vishwas Shrivastava")
+first=Moodle("Ravindra","0901EC","password","Aman Gupta")
 #first.Assignment("file")
 first.Upcoming_Activity()
 #first.Messages()
 #first.Attendance()
-#first=Moodle("Ravindra")
+
 #first.Grades()
 
 
