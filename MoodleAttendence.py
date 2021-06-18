@@ -5,26 +5,35 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from prettytable import PrettyTable
 
+import time
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
+from prettytable import PrettyTable
+
 class Moodle():
 
     def __init__(self,teacher_name,user_name,password,student_name):
         self.val=teacher_name.title()
-	self.username=user_name
-	self.pass=password
-        self.name=student_name.upper()
-	self.ele=self.username +" "+ self.name
+        self.username = user_name
+        self.password = password
+        self.name = student_name.upper()
+        self.ele = self.username + " " + self.name
 
 
     def login(self):
         s = Service("C:\\Users\\aman gupta\\Downloads\\chromedriver_win32\\chromedriver.exe")
         driver = webdriver.Chrome(service=s)
+        #driver = webdriver.Chrome(ChromeDriverManager.install(self))
         driver.maximize_window()
         driver.get("http://moodle.mitsgwalior.in/login/index.php")
         driver.implicitly_wait(15)
         enrollment = driver.find_element("name", "username")
         enrollment.send_keys(self.username)
         password = driver.find_element("id", "password")
-        password.send_keys(self.pass)
+        password.send_keys(self.password)
         login = driver.find_element("id", "loginbtn")
         login.submit()
 
@@ -54,7 +63,7 @@ class Moodle():
         enrollment = driver.find_element("name", "username")
         enrollment.send_keys(self.username)
         password = driver.find_element("id", "password")
-        password.send_keys(self.pass)
+        password.send_keys(self.password)
         login = driver.find_element("id", "loginbtn")
         login.submit()
         #time.sleep(5)
@@ -98,7 +107,7 @@ class Moodle():
         enrollment = driver.find_element("name", "username")
         enrollment.send_keys(self.username)
         password = driver.find_element("id", "password")
-        password.send_keys(self.pass)
+        password.send_keys(self.password)
         login = driver.find_element("id", "loginbtn")
         login.submit()
         #time.sleep(3)
@@ -131,7 +140,7 @@ class Moodle():
         enrollment = driver.find_element("name", "username")
         enrollment.send_keys(self.username)
         password = driver.find_element("id", "password")
-        password.send_keys(self.pass)
+        password.send_keys(self.password)
         login = driver.find_element("id", "loginbtn")
         login.submit()
         #time.sleep(5)
@@ -176,13 +185,14 @@ class Moodle():
         op.headless = True
         s = Service("C:\\Users\\aman gupta\\Downloads\\chromedriver_win32\\chromedriver.exe")
         driver = webdriver.Chrome(service=s,options=op)
+        #driver = webdriver.Chrome(executable_path=ChromeDriverManager.install())
         driver.maximize_window()
         driver.get("http://moodle.mitsgwalior.in/login/index.php")
         driver.implicitly_wait(20)
         enrollment = driver.find_element("name", "username")
         enrollment.send_keys(self.username)
         password = driver.find_element("id", "password")
-        password.send_keys(self.pass)
+        password.send_keys(self.password)
         login = driver.find_element("id", "loginbtn")
         login.submit()
         activity_date=[]
@@ -199,9 +209,8 @@ class Moodle():
                 activity_type.append("One Quiz is due on")
             elif("feedback" in link):
                 activity_type.append("One Feedback is due on")
-	    elif("assign" in link):
-		activity_type.append("One Assignment is due on")
-
+            elif ("assign" in link):
+                activity_type.append("One Assignment is due on")
         for teach in info:
             activity_info.append(teach.get_attribute("aria-label"))
         c=1
@@ -220,7 +229,7 @@ class Moodle():
         enrollment = driver.find_element("name", "username")
         enrollment.send_keys(self.username)
         password = driver.find_element("id", "password")
-        password.send_keys(self.pass)
+        password.send_keys(self.password)
         login = driver.find_element("id", "loginbtn")
         login.submit()
         driver.find_element(By.XPATH,f"//span[text()='{self.ele}']").click()
@@ -276,7 +285,7 @@ class Moodle():
         enrollment = driver.find_element("name", "username")
         enrollment.send_keys(self.username)
         password = driver.find_element("id", "password")
-        password.send_keys(self.pass)
+        password.send_keys(self.password)
         login = driver.find_element("id", "loginbtn")
         login.submit()
         driver.find_element(By.XPATH,f"//span[text()='{self.ele}']").click()
@@ -304,9 +313,11 @@ class Moodle():
 first=Moodle("Ravindra","0901EC","password","Aman Gupta")
 #first.Assignment("file")
 first.Upcoming_Activity()
+#first.login()
 #first.Messages()
 #first.Attendance()
-
+#first.Assignment("file")
+#first=Moodle("Ravindra")
 #first.Grades()
 
 
