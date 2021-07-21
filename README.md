@@ -1,5 +1,4 @@
 # Automated-Moodle
 
-#This is  selenium python script the working of this script is used to automate the different task which i usually do for my college on the website "Moodle"(which is a open source website )like  attendence submission,assignment submission,check for messages,check for upcoming activity,other informations related to T&P cell and grades etc.
-so this automate these tasks.
-in ths I have created a class(Moodle and have some methods) Class takes the name of Teacher as argument.
+This code is made using selenium which is used to do some task automatically like submission the attendance,modify the assignment,wrapping of information,messages,upcoming activity on the Moodle website "http://moodle.mitsgwalior.in/"
+This code can run using the command prompt for different activity there is different .py files it takes command prompt arguments "Your username" and 'password' and for some activity teacher name to do task on that course.
