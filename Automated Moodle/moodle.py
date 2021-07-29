@@ -40,6 +40,11 @@ class Moodle():
         login = driver.find_element("id", "loginbtn")
         login.submit()
 
+        time.sleep(2)
+        if (driver.title != "Dashboard"):
+            print("Wrong Login Credentials Entered")
+            self.notifyme("Upcoming Activity", "Wrong Login Credentials Entered")
+            return
 
     def logout(self):
         op = Options()
@@ -77,9 +82,18 @@ class Moodle():
         password.send_keys(self.password)
         login = driver.find_element("id", "loginbtn")
         login.submit()
-        #time.sleep(5)
-        teacher_module = driver.find_element(By.XPATH, f'//span[contains(text(),"{self.val}") and @class="multiline"]')
-        teacher_module.click()
+        time.sleep(3)
+        if (driver.title != "Dashboard"):
+            print("Wrong Login Credentials Entered")
+            self.notifyme("Assignment Submission", "Wrong Login Credentials Entered")
+            return
+        try:
+            teacher_module = driver.find_element(By.XPATH,f'//span[contains(text(),"{self.val}") or contains(text(),"{self.val.upper()}")  and @class="multiline"]')
+            teacher_module.click()
+        except:
+            print("Teacher Name is wrong")
+            self.notifyme("Assignment Submission", "Teacher Name is wrong")
+            return
         assignment=driver.find_elements(By.XPATH,'//span[contains(text(),"Assignment") and @class="instancename"]')
         assignment[no_of_assignment-1].click()
         driver.find_element(By.XPATH, "//button[text()='Edit submission']")
@@ -132,9 +146,18 @@ class Moodle():
         password.send_keys(self.password)
         login = driver.find_element("id", "loginbtn")
         login.submit()
-        #time.sleep(3)
-        teacher_module=driver.find_element(By.XPATH,f'//span[contains(text(),"{self.val}") and @class="multiline"]')
-        teacher_module.click()
+        time.sleep(3)
+        if(driver.title!="Dashboard"):
+            print("Wrong Login Credentials Entered")
+            self.notifyme("Attendance Submission","Wrong Login Credentials Entered")
+            return
+        try:
+            teacher_module = driver.find_element(By.XPATH,f'//span[contains(text(),"{self.val}") or contains(text(),"{self.val.upper()}")  and @class="multiline"]')
+            teacher_module.click()
+        except:
+            print("Teacher Name is wrong")
+            self.notifyme("Attendance Submission","Teacher Name is wrong")
+            return
         attendance=driver.find_elements(By.XPATH,'//span[contains(text(),"Attendance") and @class="instancename"]')
         try:attendance[no_of_attendance-1].click()
         except(IndexError):
@@ -143,8 +166,8 @@ class Moodle():
             self.notifyme("Attendance Submission","You are not enrolled for this course")
             return
         try:
-            driver.find_element("link text",'Submit attendance').click()
-        except:
+            driver.find_element(By.XPATH,'//a[text()="Submit attendance"]').click()
+        except NoSuchElementException:
             driver.quit()
             print("Attendance is not open yet")
             self.notifyme("Attendance Submission","Attendance is not open yet")
@@ -163,8 +186,8 @@ class Moodle():
             print("Unable to submit attendance! Some error occured")
             self.notifyme("Attendance Submission","Error occured")
 
-    def Remove_Assignment(self,teacher_name,no_of_assignment=0):
-        self.val=techer_name.title()
+    def Remove_Assignment(self,teacher,number=0):
+        self.val=teacher.title()
         op = Options()
         op.headless = True
         '''
@@ -180,12 +203,21 @@ class Moodle():
         password.send_keys(self.password)
         login = driver.find_element("id", "loginbtn")
         login.submit()
-        #time.sleep(5)
-        teacher_module = driver.find_element(By.XPATH, f'//span[contains(text(),"{self.val}") and @class="multiline"]')
-        teacher_module.click()
+        time.sleep(3)
+        if(driver.title!="Dashboard"):
+            print("Wrong Login Credentials Entered")
+            self.notifyme("Remove Assignment","Wrong Login Credentials Entered")
+            return
+        try:
+            teacher_module = driver.find_element(By.XPATH,f'//span[contains(text(),"{self.val}") or contains(text(),"{self.val.upper()}")  and @class="multiline"]')
+            teacher_module.click()
+        except:
+            print("Teacher Name is wrong")
+            self.notifyme("Remove Assignment","Teacher Name is wrong")
+            return
         try:
             assignment=driver.find_elements(By.XPATH,'//span[contains(text(),"Assignment") and @class="instancename"]')
-            assignment[no_of_assignment-1].click()
+            assignment[number-1].click()
         except(IndexError):
             print("No assignment found for this course")
             driver.quit()
@@ -194,7 +226,7 @@ class Moodle():
         except NoSuchElementException:
             print("No assignment found")
             driver.quit()
-            self.notifyme("Remove Assignment","No assignment found")
+            self.notifyme("Remove Assignment","No assignment found ")
             return
 
         try:
@@ -202,7 +234,7 @@ class Moodle():
         except:
             print("Assignment is not submitted yet")
             return
-        driver.find_element(By.XPATH,'//button[text()="Continue"]').click()
+        driver.find_element(By.XPATH,'//button[text()="Continue"]')
         print("Successfully removed the assignment")
         self.notifyme("Remove Assignment","Successfully removed the assignment")
 
@@ -234,15 +266,10 @@ class Moodle():
             print(count,end=". ")
             print(i,j,k,sep="\n")
             print("*"*50)
-            msg += str(count)
             count+=1
-            msg+=":- "
-            msg1=list(i.split(" "))
-            x=" ".join(msg1[:8])
-            msg+=x
-            msg+="\n"
+
         driver.quit()
-        self.notifyme("Latest Post",msg)
+        self.notifyme("Latest Post","successfully Printed Latest Posts")
     #For upcoming activity
 
     def Upcoming_Activity(self):
@@ -267,6 +294,11 @@ class Moodle():
         Activities=driver.find_elements(By.XPATH,"//div[@class='tab-content']/div/div/div/div/div/div/div/div/h5")
         type=driver.find_elements(By.XPATH,'//div[@class="tab-content"]/div/div/div/div/div/div/div/div/div/div/div/div/img')
         info=driver.find_elements(By.XPATH,"//div[@class='tab-content']/div/div/div/div/div/div/div/div/div/div/div/div/a")
+        time.sleep(2)
+        if(driver.title!="Dashboard"):
+            print("Wrong Login Credentials Entered")
+            self.notifyme("Upcoming Activity","Wrong Login Credentials Entered")
+            return
         for act in Activities:
             activity_date.append(act.text)
         if(len(Activities)!=0):
@@ -315,6 +347,11 @@ class Moodle():
         password.send_keys(self.password)
         login = driver.find_element("id", "loginbtn")
         login.submit()
+        time.sleep(2)
+        if(driver.title!="Dashboard"):
+            print("Wrong Login Credentials Entered")
+            self.notifyme("Messages","Wrong Login Credentials Entered")
+            return
         driver.find_element(By.XPATH,f"//span[contains(text(),'{self.username}')]").click()
         driver.find_element(By.XPATH,"//a[@data-title='messages,message']").click()
         driver.find_element(By.XPATH,'//div[@id="view-overview-messages-toggle"]/button').click()
@@ -382,16 +419,26 @@ class Moodle():
         password.send_keys(self.password)
         login = driver.find_element("id", "loginbtn")
         login.submit()
+        time.sleep(2)
+        if(driver.title!="Dashboard"):
+            print("Wrong Login Credentials Entered")
+            self.notifyme("Grades","Wrong Login Credentials Entered")
+            return
         try:
             driver.find_element(By.XPATH,f"//span[contains(text(),'{self.username}')]").click()
             driver.find_element(By.XPATH,"//a[@data-title='grades,grades']").click()
+        except:
+            print("Error occured!")
+            self.notifyme("Grades", "Error occured!")
+            return
+        try:
             driver.find_element(By.XPATH,f'//tr/td/a[contains(text(),"{self.val}")]').click()
             types=driver.find_elements(By.XPATH,'//tr/th/a')
             grades=driver.find_elements(By.XPATH,"//tr/td[contains(@class,'column-grade')]")
             prcnt=driver.find_elements(By.XPATH,"//tr/td[contains(@class,'column-percentage')]")
         except:
-            print("Error occured!")
-            self.notifyme("Grades","Error occured!")
+            print("Teacher Name not found")
+            self.notifyme("Grades","Teacher Name not found")
             return
         li_types=[]
         li_grades=[]
